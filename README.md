@@ -5,8 +5,8 @@
 - 본 프로그램은 PyQt4를 사용하여 gui를 만들었기 때문에 GNU GPLv3를 따릅니다.
 - 본 설명서는 관련 내용을 처음 접하는 사람의 수준에서 기술되었습니다.
 
-<!-- ![image](./img/gui.PNG) -->
-<img src="./img/gui.PNG" alt="drawing" style="width: 400px;"/>
+![image](./img/gui.PNG){:height="70%" width="70%"}
+<!-- <img src="./img/gui.PNG" alt="drawing" style="width: 400px;"/> -->
 
 ## 1. 요구 사항
 ### 하드웨어
@@ -45,9 +45,12 @@ sudo apt-get install git python2.7 python-qt4
     ```
     gpio readall
     ```
+    ![image](./img/gpio.PNG){:height="70%" width="70%"}
+
 
 ## 3. 실행
-위 "설치" 과정을 따랐다면 터미널에서 ```skku```를 입력하면 실행될 것이다. 위 설치과정을 따르지 않았더라도 프로그램이 있는 경로에서 ```python main.py```를 터미널에 입력하면 실행할 수 있다.
+- 위 "설치" 과정을 따랐다면 터미널에서 ```skku```를 입력하면 실행될 것이다. 위 설치과정을 따르지 않았더라도 프로그램이 있는 경로에서 ```python main.py```를 터미널에 입력하면 실행할 수 있다.
+- ```.txt Save```버튼을 누르면 라즈베리파이 바탕화면(```~/Desktop```)에 모든 내용이 저장된다. 파일 이름은 저장한 시점의 date, time 조합이다.
 
 ## 4. 편집
 ### gui

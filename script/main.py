@@ -191,7 +191,8 @@ class SKKU_robot(QtGui.QDialog, skku_gui_small.Ui_Dialog):
                                                     now.tm_hour,
                                                     now.tm_min,
                                                     now.tm_sec)
-            f = open('../'+date+'.txt', 'w')
+            # cd ~/Competition-Scoring-Program; python main.py
+            f = open('~/Desktop/'+date+'.txt', 'w')
             self.append_log('\n===== The file was safely saved! =====\n')
             f.write(self.textbox)
             f.close()
