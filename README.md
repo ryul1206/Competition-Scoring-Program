@@ -6,9 +6,12 @@
 - 본 설명서는 관련 내용을 처음 접하는 사람의 수준에서 기술되었습니다.
 
 ![image](./img/gui.PNG){:height="70%" width="70%"}
-<img src="./img/gui.PNG" alt="drawing" width="40%"/>
-<img src="./img/gui.PNG" alt="drawing" width="100"/>
-
+<d>
+    <img src="./img/gui.PNG" alt="drawing" width="40%"/>
+</d>
+<d>
+    <img src="./img/gui.PNG" alt="drawing" width="100"/>
+</d>
 ## 1. 요구 사항
 ### 하드웨어
 필요한 부품은 반드시 마스터조교가 취합하여 구매할 것
