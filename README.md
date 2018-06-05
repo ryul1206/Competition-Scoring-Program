@@ -6,8 +6,8 @@
 - 본 설명서는 관련 내용을 처음 접하는 사람의 수준에서 기술되었습니다.
 
 ![image](./img/gui.PNG){:height="70%" width="70%"}
-<img src="./img/gui.PNG" alt="drawing" style="width: 40%;"/>
-<img src="./img/gui.PNG" alt="drawing" style="width: 200px;"/>
+<img src="./img/gui.PNG" alt="drawing" width="40%"/>
+<img src="./img/gui.PNG" alt="drawing" width="100"/>
 
 ## 1. 요구 사항
 ### 하드웨어
