@@ -29,35 +29,43 @@ except AttributeError:
 ########################################
 # $ gpio readall
 
-P1 = 6
-P2 = 13
-P3 = 19
-P4 = 26
-P5 = 16
-P6 = 20
-P7 = 21
+EVENT = ['Game Start!',
+         '1st Mission END',
+         'Olympus mons IN', 
+         'Olympus mons OUT',
+         'Hill of mars IN',
+         'Hill of mars OUT',
+         'Finish Line!']
+
+PIN = {EVENT[0]: 6,
+       EVENT[1]: 13,
+       EVENT[2]: 19,
+       EVENT[3]: 26,
+       EVENT[4]: 16,
+       EVENT[5]: 20,
+       EVENT[6]: 21}
+
 type_SWITCH = GPIO.PUD_DOWN
 type_IR = GPIO.PUD_UP
 
+PIN_TYPE = type_IR
+
 GPIO.setmode(GPIO.BCM)
-GPIO.setup(P1, GPIO.IN, pull_up_down=type_IR) # start
-GPIO.setup(P2, GPIO.IN, pull_up_down=type_IR) # mission1 end
-GPIO.setup(P3, GPIO.IN, pull_up_down=type_IR) # olym in
-GPIO.setup(P4, GPIO.IN, pull_up_down=type_IR) # olym out
-GPIO.setup(P5, GPIO.IN, pull_up_down=type_IR) # hill in
-GPIO.setup(P6, GPIO.IN, pull_up_down=type_IR) # hill out
-GPIO.setup(P7, GPIO.IN, pull_up_down=type_IR) # end
-def this_sensor_pushed(id):
-    #  return (GPIO.input(id) != 0)  # type_SWITCH
-    return (GPIO.input(id) == 0)  # type_IR
+for event in EVENT:
+    GPIO.setup(PIN[event], GPIO.IN, pull_up_down=PIN_TYPE)
 
 ########################################
+def this_sensor_pushed(id):
+    if PIN_TYPE == type_SWITCH:
+        return (GPIO.input(id) != 0)  # type_SWITCH
+    else:
+        return (GPIO.input(id) == 0)  # type_IR
+
 
 class SKKU_robot(QtGui.QDialog, skku_gui_small.Ui_Dialog):
     def __init__(self, parent=None):
         QtGui.QDialog.__init__(self, parent)
         self.setupUi(self)
-        self.check_box = [self.checkBox, self.checkBox_2, self.checkBox_3, self.checkBox_4]
         self.init_time = 210
         self.init_hp = 50
         # var
@@ -73,15 +81,16 @@ class SKKU_robot(QtGui.QDialog, skku_gui_small.Ui_Dialog):
         self.start_time = 0
         self.save_time = 0
         # mission check
+        self.check_box = [self.checkBox,
+                          self.checkBox_2,
+                          self.checkBox_3,
+                          self.checkBox_4]
         for i in range(4):
             self.check_box[i].setChecked(False)
         # sensors
-        self.sensor_start = False
-        self.sensor_olym_in = False
-        self.sensor_olym_out = False
-        self.sensor_hill_in = False
-        self.sensor_hill_out = False
-        self.sensor_end = False
+        self.sensor = {}
+        for event in EVENT:
+            self.sensor[event] = False
         # timer        
         self.timer = QtCore.QTimer()
         self.timer.timeout.connect(self.data_update)
@@ -106,16 +115,8 @@ class SKKU_robot(QtGui.QDialog, skku_gui_small.Ui_Dialog):
         for i in range(4):
             self.check_box[i].setChecked(False)
         # sensors
-        self.sensor_start = False
-        self.sensor_olym_in = False
-        self.sensor_olym_out = False
-        self.sensor_hill_in = False
-        self.sensor_hill_out = False
-        self.sensor_end = False
-        self.checkBox.setCheckState(False)
-        self.checkBox_2.setCheckState(False)
-        self.checkBox_3.setCheckState(False)
-        self.checkBox_4.setCheckState(False)
+        for event in EVENT:
+            self.sensor[event] = False
         self.retranslateUi(QtGui.QDialog())
         # file
         self.textbox = ""
@@ -133,7 +134,8 @@ class SKKU_robot(QtGui.QDialog, skku_gui_small.Ui_Dialog):
     
     def bt_force_start(self):
         self.not_pause = True
-        self.sensor_start = True
+        # self.sensor_start = True
+        self.sensor[EVENT[0]] = True
         self.start_time = time.time()
         self.append_log("> 0 sec : Game Start!")
     
@@ -235,41 +237,17 @@ class SKKU_robot(QtGui.QDialog, skku_gui_small.Ui_Dialog):
         self.lcd_black_3.display(self.num_hand)
         self.lcd_black_4.display(self.num_fall_robot)
         # log
-        if not self.sensor_start:
-            if this_sensor_pushed(P1): # pushed
+        if not self.sensor[EVENT[0]]:
+            if this_sensor_pushed(PIN[EVENT[0]]): # pushed
                 self.bt_force_start()
         else:
             # only when start
-            if (not self.sensor_olym_in) and this_sensor_pushed(P3):
-                self.sensor_olym_in = True
-                self.append_log("> "+str(self.event_time)+" sec : Olympus mons IN")
-            elif (not this_sensor_pushed(P3)):
-                self.sensor_olym_in = False
-            
-            if (not self.sensor_olym_out) and this_sensor_pushed(P4):
-                self.sensor_olym_out = True
-                self.append_log("> "+str(self.event_time)+" sec : Olympus mons OUT")
-            elif (not this_sensor_pushed(P4)):
-                self.sensor_olym_out = False
-            
-            if (not self.sensor_hill_in) and this_sensor_pushed(P5):
-                self.sensor_hill_in = True
-                self.append_log("> "+str(self.event_time)+" sec : Hill of mars IN")
-            elif (not this_sensor_pushed(P5)):
-                self.sensor_hill_in = False
-        
-            if (not self.sensor_hill_out) and this_sensor_pushed(P6):
-                self.sensor_hill_out = True
-                self.append_log("> "+str(self.event_time)+" sec : Hill of mars OUT")
-            elif (not this_sensor_pushed(P6)):
-                self.sensor_hill_out = False
-            
-            if (not self.sensor_end) and this_sensor_pushed(P7):
-                self.sensor_end = True
-                self.append_log("> "+str(self.event_time)+" sec : FINISH!")
-            elif (not this_sensor_pushed(P7)):
-                self.sensor_end = False
-
+            for event in EVENT[1:]:
+                if (not self.sensor[event]) and this_sensor_pushed(PIN[event]):
+                    self.sensor[event] = True
+                    self.append_log("> "+str(self.event_time)+" sec : "+event)
+                elif (not this_sensor_pushed(PIN[event])):
+                    self.sensor[event] = False
         # print time.time()
         
     
