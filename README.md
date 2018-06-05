@@ -5,13 +5,11 @@
 - 본 프로그램은 PyQt4를 사용하여 gui를 만들었기 때문에 GNU GPLv3를 따릅니다.
 - 본 설명서는 관련 내용을 처음 접하는 사람의 수준에서 기술되었습니다.
 
-![image](./img/gui.PNG){:height="70%" width="70%"}
+<!-- ![image](./img/gui.PNG){:height="70%" width="70%"} -->
 <d>
-    <img src="./img/gui.PNG" alt="drawing" width="40%"/>
+    <img src="./img/gui.PNG" alt="drawing" width="70%"/>
 </d>
-<d>
-    <img src="./img/gui.PNG" alt="drawing" width="100"/>
-</d>
+
 ## 1. 요구 사항
 ### 하드웨어
 필요한 부품은 반드시 마스터조교가 취합하여 구매할 것
@@ -49,7 +47,10 @@ sudo apt-get install git python2.7 python-qt4
     ```
     gpio readall
     ```
-    ![image](./img/gpio.PNG){:height="70%" width="70%"}
+    <!-- ![image](./img/gpio.PNG){:height="70%" width="70%"} -->
+    <d>
+        <img src="./img/gpio.PNG" alt="drawing" width="70%"/>
+    </d>
 
 
 ## 3. 실행
