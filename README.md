@@ -28,6 +28,7 @@ sudo apt-get install git python2.7 python-qt4 gedit
 
 ## 2. 설치
 ### 업데이트
+| 처음 설치해야하는 상황이라면 이 단계를 건너뛰십시오. 이 단계는 설치한 이후 온라인 git저장소에 새로 업데이트된 내용을 내려받기 위한 것입니다.
 1. git을 다운받은 경로로 이동한다.
     ```
     cd ~/Competition-Scoring-Program/
