@@ -21,8 +21,9 @@
 - Git
 - Python 2.7
 - PyQt4 (GNU GPLv3)
+- gedit (텍스트 편집기이므로 다른 것을 써도 좋다.)
 ```
-sudo apt-get install git python2.7 python-qt4
+sudo apt-get install git python2.7 python-qt4 gedit
 ```
 
 ## 2. 설치
@@ -38,7 +39,7 @@ sudo apt-get install git python2.7 python-qt4
     ```
 1. ```.bashrc``` 마지막 줄에 아래 두 줄을 추가하고 저장한다.
     ```
-    alias skku='cd ~/Competition-Scoring-Program; python main.py'
+    alias skku='cd ~/Competition-Scoring-Program/script; python main.py'
     skku
     ```
     이제 ```Ctrl```+```Alt```+```T```를 눌러 터미널창을 다시 열면 자동으로 프로그램이 실행될 것이다.
