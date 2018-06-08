@@ -68,6 +68,8 @@ class SKKU_robot(QtGui.QDialog, skku_gui_small.Ui_Dialog):
         self.setupUi(self)
         self.init_time = 210
         self.init_hp = 50
+        # safe start
+        self.start_once = False
         # var
         self.total_time = self.init_time
         self.hp = self.init_hp
@@ -99,6 +101,8 @@ class SKKU_robot(QtGui.QDialog, skku_gui_small.Ui_Dialog):
         self.textbox = ""
 
     def bt_reset(self):
+        # safe start
+        self.start_once = False
         # var
         self.total_time = self.init_time
         self.hp = self.init_hp
@@ -122,22 +126,23 @@ class SKKU_robot(QtGui.QDialog, skku_gui_small.Ui_Dialog):
         self.textbox = ""
 
     def bt_pause(self):
-        #if self.sensor_start:
-        if self.not_pause:
-            self.pushButton_2.setText(_translate("Dialog", "Resume", None))
-            self.not_pause = False
-            self.save_time = self.event_time
-        else:
-            self.pushButton_2.setText(_translate("Dialog", "Pause", None))
-            self.not_pause = True
-            self.start_time = time.time()
+        if self.start_once:
+            if self.not_pause:
+                self.pushButton_2.setText(_translate("Dialog", "Resume", None))
+                self.not_pause = False
+                self.save_time = self.event_time
+            else:
+                self.pushButton_2.setText(_translate("Dialog", "Pause", None))
+                self.not_pause = True
+                self.start_time = time.time()
     
     def bt_force_start(self):
-        self.not_pause = True
-        # self.sensor_start = True
-        self.sensor[EVENT[0]] = True
-        self.start_time = time.time()
-        self.append_log("> 0 sec : Game Start!")
+        if not self.start_once:
+            self.start_once = True
+            self.not_pause = True
+            self.sensor[EVENT[0]] = True
+            self.start_time = time.time()
+            self.append_log("> 0 sec : Game Start!")
     
     def bt_1st(self):
         self.num_collision += 1
