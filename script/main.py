@@ -30,11 +30,11 @@ except AttributeError:
 # $ gpio readall
 
 EVENT = ['Game Start!',
-         '1st Mission END',
          'Olympus mons IN', 
          'Olympus mons OUT',
          'Hill of mars IN',
          'Hill of mars OUT',
+         'Line Tracing IN',
          'Finish Line!']
 
 PIN = {EVENT[0]: 6,
@@ -122,15 +122,15 @@ class SKKU_robot(QtGui.QDialog, skku_gui_small.Ui_Dialog):
         self.textbox = ""
 
     def bt_pause(self):
-        if self.sensor_start:
-            if self.not_pause:
-                self.pushButton_2.setText(_translate("Dialog", "Resume", None))
-                self.not_pause = False
-                self.save_time = self.event_time
-            else:
-                self.pushButton_2.setText(_translate("Dialog", "Pause", None))
-                self.not_pause = True
-                self.start_time = time.time()
+        #if self.sensor_start:
+        if self.not_pause:
+            self.pushButton_2.setText(_translate("Dialog", "Resume", None))
+            self.not_pause = False
+            self.save_time = self.event_time
+        else:
+            self.pushButton_2.setText(_translate("Dialog", "Pause", None))
+            self.not_pause = True
+            self.start_time = time.time()
     
     def bt_force_start(self):
         self.not_pause = True
@@ -183,21 +183,22 @@ class SKKU_robot(QtGui.QDialog, skku_gui_small.Ui_Dialog):
         self.append_log('# of hand touch: '+str(self.num_hand))
         self.append_log('# of robot fall: '+str(self.num_fall_robot))
         # create file
+        
+        now = time.localtime()
+        date = '%04d%02d%02d %02d-%02d-%02d' % (now.tm_year,
+                                                now.tm_mon,
+                                                now.tm_mday,
+                                                now.tm_hour,
+                                                now.tm_min,
+                                                now.tm_sec)
+        # cd ~/Competition-Scoring-Program; python main.py
         try:
-            now = time.localtime()
-            date = '%04d%02d%02d %02d-%02d-%02d' % (now.tm_year,
-                                                    now.tm_mon,
-                                                    now.tm_mday,
-                                                    now.tm_hour,
-                                                    now.tm_min,
-                                                    now.tm_sec)
-            # cd ~/Competition-Scoring-Program; python main.py
-            f = open('~/Desktop/'+date+'.txt', 'w')
+            f = open('/home/pi/Desktop/'+date+'.txt', 'w')
             self.append_log('\n===== The file was safely saved! =====\n')
             f.write(self.textbox)
             f.close()
-        except:
-            self.append_log('\n[ERROR] Something is wrong. T_T\n')
+        except Exception as e:
+            self.append_log('\n[ERROR] Something is wrong. T_T'+str(e)+'\n')
 
     def append_log(self, text):
         self.textbox += text
